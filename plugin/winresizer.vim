@@ -1,8 +1,8 @@
 "---------------------------------------------------
-" WinResizer 
+" WinResizer
 "---------------------------------------------------
 " This is simple plugin to resize/move windows
-" for someone using vim with split windows  
+" for someone using vim with split windows 
 "
 " ========================================
 " start 'resize mode' key
@@ -116,7 +116,7 @@ let s:codeList = {
         \  'mode' : g:winresizer_keycode_mode,
         \}
 
-exe 'nnoremap ' . g:winresizer_start_key .' :WinResizerStartResize<CR>'
+exe 'nnoremap <silent> ' . g:winresizer_start_key .' :WinResizerStartResize<CR>'
 
 com! WinResizerStartResize call s:startResize(s:tuiResizeCommands())
 com! WinResizerStartMove call s:startResize(s:moveCommands())
@@ -199,7 +199,7 @@ fun! s:startResize(commands)
 
   while 1
 
-    echo '[window ' . l:commands['mode'] . ' mode]... "'.s:label_finish.'": OK , "'.s:label_mode.'": Change mode , "'.s:label_cancel.'": Cancel '
+    echo '[winresizer] mode ' . l:commands['mode']
 
     let c = getchar()
 
@@ -222,7 +222,7 @@ fun! s:startResize(commands)
     elseif c == g:winresizer_keycode_cancel "q
       exe l:commands['cancel']
       redraw
-      echo "Canceled!"
+      echo "[winresizer] canceled"
       break
     elseif c == s:codeList['mode']
       if l:commands['mode'] == 'move'
@@ -234,7 +234,7 @@ fun! s:startResize(commands)
       endif
     elseif c == g:winresizer_keycode_finish || (g:winresizer_finish_with_escape == 1 && c == g:winresizer_keycode_escape)
       redraw
-      echo "Finished!"
+      echo "[winresizer] finished"
       break
     endif
     redraw
@@ -242,7 +242,7 @@ fun! s:startResize(commands)
 endfun
 
 " Decide behavior of up, down, left and right key .
-" (to increase or decrease window size) 
+" (to increase or decrease window size)
 fun! s:getResizeBehavior()
   let signs = {'left':'-', 'down':'+', 'up':'-', 'right':'+'}
   let result = {}
